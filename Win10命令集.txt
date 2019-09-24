@@ -1,0 +1,6 @@
+远程桌面:mstsc
+设置自启动:mcsonfig
+设置服务项:services.msc
+注册表项:gpedit.msc
+shift+win+s:截图到剪贴板
+禁用自动更新:gpedit.msc：计算机配置>管理模板>windows组件>Windows更新，然后双击右侧的【配置自动更新】选项选择已禁用

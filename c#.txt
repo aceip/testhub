@@ -1,0 +1,290 @@
+Console.WriteLine("~~"); 输出自动换行
+Console.Write("~~");  输出不换行
+Coonsole.ReadKey();  屏幕等待接收字符然后退出 解决一闪而过问题
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace HelloWorldApplication
+{
+    class Rectangle { //自定义函数
+        double length;
+        double width;
+
+        public void Acceptdetails() {
+            length = 9.0;
+            width = 3.8;
+        }
+        public double GetArea() {
+            return length * width;
+        }
+        public void Display() {
+            Console.WriteLine("Length:{0}",length);
+            Console.WriteLine("Width: {0}", width);
+            Console.WriteLine("Area:  {0}",GetArea());
+        }
+    }
+    class Program 
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("基本语法测试！");
+            Rectangle r = new Rectangle();//主函数内调用
+            r.Acceptdetails();
+            r.Display();
+            Console.ReadKey();
+        }
+    }
+}
+//纯class引用
+using System;
+
+public class ConstTest
+{
+    class SampleClass
+    {
+        public int x;
+        public int y;
+        public const int c1 = 5;
+        public const int c2 = c1 + 5;
+
+        public SampleClass(int p1, int p2)
+        {
+            x = p1;
+            y = p2;
+        }
+    }
+
+    static void Main()
+    {
+        SampleClass mC = new SampleClass(11, 22);
+        Console.WriteLine("x = {0}, y = {1}", mC.x, mC.y);
+        Console.WriteLine("c1 = {0}, c2 = {1}",SampleClass.c1, SampleClass.c2);
+        Console.ReadKey();
+    }
+}
+//Exp1 ? Exp2 : Exp3; ? 表达式的值是由 Exp1 决定的。如果 Exp1 为真，则计算 Exp2 的值，结果即为整个 ? 表达式的值。如果 Exp1 为假，则计算 Exp3 的值，结果即为整个 ? 表达式的值
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace jiecheng
+{
+    class jiecheng
+    {
+        public int Jc(int num)
+        {
+            
+            return num > 0 ? num *Jc(num - 1):1;  //如果num>0则返回num *Jc(num - 1)，否则返回1
+        }
+    }
+
+
+
+
+    class excutejiecheng
+  
+    {
+        static void Main(string[] args)
+        {
+            jiecheng n = new jiecheng();
+            int result = n.Jc(Convert.ToInt16(Console.ReadLine()));
+            Console.WriteLine("result is {0}",result);
+            Console.ReadKey();
+        }
+    }
+}
+//while循环
+using System;
+
+namespace Loops
+{
+   
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            /* 局部变量定义 */
+            int a = 10;
+
+            /* while 循环执行 */
+            while (a < 20)
+            {
+                Console.WriteLine("a 的值： {0}", a);
+                a++;
+            }
+            Console.ReadLine();
+        }
+    }
+}
+
+for循环
+using System;
+
+namespace Loops
+{
+   
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            /* for 循环执行 */
+            for (int a = 10; a < 20; a = a + 1)
+            {
+                Console.WriteLine("a 的值： {0}", a);
+            }
+            Console.ReadLine();
+        }
+    }
+}
+
+foreach
+C# 也支持 foreach 循环，使用foreach可以迭代数组或者一个集合对象。
+以下实例有三个部分：
+通过 foreach 循环输出整型数组中的元素。
+通过 for 循环输出整型数组中的元素。
+foreach 循环设置数组元素的计算器。
+class ForEachTest
+{
+    static void Main(string[] args)
+    {
+        int[] fibarray = new int[] { 0, 1, 1, 2, 3, 5, 8, 13 };
+        foreach (int element in fibarray)
+        {
+            System.Console.WriteLine(element);
+        }
+        System.Console.WriteLine();
+
+
+        // 类似 foreach 循环
+        for (int i = 0; i < fibarray.Length; i++)
+        {
+            System.Console.WriteLine(fibarray[i]);
+        }
+        System.Console.WriteLine();
+
+
+        // 设置集合中元素的计算器
+        int count = 0;
+        foreach (int element in fibarray)
+        {
+            count += 1;
+            System.Console.WriteLine("Element #{0}: {1}", count, element);
+        }
+        System.Console.WriteLine("Number of elements in the array: {0}", count);
+    }
+}
+
+//do while循环
+using System;
+
+namespace Loops
+{
+   
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            /* 局部变量定义 */
+            int a = 10;
+
+            /* do 循环执行 */
+            do
+            {
+               Console.WriteLine("a 的值： {0}", a);
+                a = a + 1;
+            } while (a < 20);
+
+            Console.ReadLine();
+        }
+    }
+}
+//break语句
+using System;
+
+namespace Loops
+{
+   
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            /* 局部变量定义 */
+            int a = 10;
+
+            /* while 循环执行 */
+            while (a < 20)
+            {
+                Console.WriteLine("a 的值： {0}", a);
+                a++;
+                if (a > 15)
+                {
+                    /* 使用 break 语句终止 loop */
+                    break;
+                }
+            }
+            Console.ReadLine();
+        }
+    }
+}
+//continue
+using System;
+
+namespace Loops
+{
+   
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            /* 局部变量定义 */
+            int a = 10;
+
+            /* do 循环执行 */
+            do
+            {
+                if (a == 15)
+                {
+                    /* 跳过迭代 */
+                    a = a + 1;
+                    continue;
+                }
+                Console.WriteLine("a 的值： {0}", a);
+                a++;
+
+            } while (a < 20);
+ 
+            Console.ReadLine();
+        }
+    }
+}
+//函数调用
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace mydb1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            showcode show = new showcode();
+            show.show();
+            Console.ReadKey();
+        }
+    }
+    class showcode {
+        public void show (){
+            String Name = "中国";
+            Console.WriteLine("你好:{0}",Name);
+        }
+    }
+}

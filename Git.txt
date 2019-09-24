@@ -1,0 +1,30 @@
+pwd显示当前目录
+git init 将当前目录变成可管理的仓库
+git add text.txt 存到暂存区
+git commit -m '仓库注释' 告诉git 把文件提交到仓库
+ssh-keygen -t rsa -C "13993366215@139.com" 本地仓库产生密钥
+git remote add origin https//github.com/aceip/testhub.git 同步远程仓库
+git remote rm origin 删除链接
+遇到 Please make sure you have the correct access rights and the repository exists”时
+输入命令ssh-keygen -t rsa -C "aceip" 然后一路回车
+输入命令ssh -T git@github.com返回access
+然后再运行同步命令
+git push -u origin master
+
+**ssh -T git@github.com
+Warning: Permanently added the RSA host key for IP address '13.229.188.59' to the list of known hosts.
+Hi aceip! You've successfully authenticated, but GitHub does not provide shell access.
+
+git remote add origin https://github.com/aceip/testhub.git
+fatal: remote origin already exists.
+
+git remote rm origin
+git push -u origin master
+Enumerating objects: 3, done.
+Counting objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 223 bytes | 223.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To https://github.com/aceip/testhub.git
+ * [new branch]      master -> master
+Branch 'master' set up to track remote branch 'master' from 'origin'.
+
