@@ -1,0 +1,180 @@
+https://blog.csdn.net/weixin_42731241/article/details/81172622
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+ 
+namespace A006
+{
+    class Program
+    {
+ 
+        //连接数据库
+        public void Conn(SqlConnection conn)
+        {
+            //获取或设置用于打开 SQL Server 数据库的字符串
+            conn.ConnectionString = "Server=DESKTOP-8VD7LNG;DataBase=testDB;Trusted_Connection=SSPI";
+ 
+            try
+            {
+                //打开数据库
+                conn.Open();
+                //打印数据库连接状态
+                Console.WriteLine(conn.State);
+ 
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine("数据库打开失败！");
+                Console.WriteLine(ex.Message);
+            }
+ 
+        }
+ 
+        //insert
+        public void Insert(SqlConnection conn)
+        {
+           
+            String sql_insert = "insert into Table_1(uid,name) values(@UID,@NAME)";
+ 
+            SqlCommand cmd_insert = new SqlCommand(sql_insert, conn);
+            SqlParameter para1 = new SqlParameter("@UID", "106");
+            cmd_insert.Parameters.Add(para1);
+            SqlParameter para2 = new SqlParameter("@NAME", "Bit106");
+            cmd_insert.Parameters.Add(para2);
+ 
+            //对连接执行 Transact-SQL 语句并返回受影响的行数
+            int res_1 = cmd_insert.ExecuteNonQuery();
+            Console.WriteLine(res_1);
+        }
+ 
+        //update
+        public void update(SqlConnection conn)
+        { 
+            string sql_update = "update Table_1 set name=@NAME where id=@ID;";
+            SqlCommand cmd_update = new SqlCommand(sql_update, conn);
+            cmd_update.Parameters.AddWithValue("@ID", "3");
+            cmd_update.Parameters.AddWithValue("@NAME", "Bit100");
+            int res_2 = cmd_update.ExecuteNonQuery();
+            Console.WriteLine(res_2);
+        }
+ 
+        //delete
+        public void delete(SqlConnection conn)
+        {
+            string sql_delete = "DELETE FROM Table_1 WHERE name=@NAME;";
+            SqlCommand cmd_delete = new SqlCommand(sql_delete, conn);
+            cmd_delete.Parameters.AddWithValue("@NAME", "Bit106");
+            int res_3 = cmd_delete.ExecuteNonQuery();
+            Console.WriteLine(res_3);
+        }
+ 
+        //select 
+        public void select(SqlConnection conn)
+        {
+            //定义查询语句
+            String sql = "select * from Table_1";
+            SqlCommand sqlComm = new SqlCommand(sql, conn);
+            //接收查询到的sql数据
+            SqlDataReader reader = sqlComm.ExecuteReader();
+            //读取数据
+            while (reader.Read())
+            {
+                //打印
+                Console.WriteLine(reader["uid"].ToString());
+                Console.WriteLine(reader["name"].ToString());
+            }
+            reader.Close();
+        }
+ 
+        //调用存储过程
+        public void procedure(SqlConnection conn)
+        {
+            SqlCommand cmd = new SqlCommand("testInsert", conn);
+            cmd.CommandType = CommandType.StoredProcedure;//告知执行存储过程
+            //传参数
+            cmd.Parameters.AddWithValue("@Uid", "106");
+            cmd.Parameters.AddWithValue("@Name", "Bit106");
+            int res = cmd.ExecuteNonQuery();
+            Console.WriteLine(res);
+ 
+        }
+ 
+        //批量写入
+        public void insertBulk(SqlConnection conn)
+        {
+            DataTable dt = GetTableSchema();
+        
+            SqlBulkCopy bulkCopy = new SqlBulkCopy(conn);
+            //获取服务器上目标表的名称
+            bulkCopy.DestinationTableName = "Table_1";
+            bulkCopy.BatchSize = dt.Rows.Count;
+ 
+            for (int i = 0,j=107; i < 100; i++,j++)
+            {
+                //创建与该表结构相同的行
+                DataRow dr = dt.NewRow();
+                dr[1] = j;
+                dr[2] = "Bit" + j;
+                dt.Rows.Add(dr);
+            }
+            if (dt != null && dt.Rows.Count != 0)
+            {
+                try
+                {
+                    //将内存中数据表的记录写到服务器上的目标表中
+                    bulkCopy.WriteToServer(dt);
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+               
+            }
+            //Console.WriteLine(string.Format("插入{0}条记录", 100));
+         }
+        static DataTable GetTableSchema()
+        {
+            //内存中建一个数据表
+            DataTable dt = new DataTable();
+            //获取该数据表的列
+            dt.Columns.AddRange(new DataColumn[] {
+        new DataColumn("id",typeof(int)),
+        new DataColumn("uid",typeof(int)),
+        new DataColumn("name",typeof(string))});
+            return dt;
+        }
+ 
+ 
+        static void Main(string[] args)
+        {
+            //建立一个连接数据库的对象
+            SqlConnection conn = new SqlConnection();
+            Program p = new Program();
+            p.Conn(conn);
+            //查
+            // p.select(conn);
+            //增
+            //p.Insert(conn);
+            //改
+            //p.update(conn);
+            //删
+            //p.delete(conn);
+ 
+            //调用存储过程
+            //p.procedure(conn);
+ 
+            //批量写入
+            p.insertBulk(conn);
+ 
+            conn.Close();
+            conn.Dispose();
+ 
+            Console.ReadLine();
+        }
+    }
+}
